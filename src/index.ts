@@ -41,9 +41,6 @@ async function main() {
   rainRenderer.setSize(vw, vh)
   cloudRenderer.setSize(vw, vh)
 
-  document.body.appendChild(cameraCanvas)
-  document.body.appendChild(rainRenderer.getCanvas())
-
   process()
 
   async function process () {

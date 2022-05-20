@@ -1,3 +1,3 @@
-![screenshot](./screenshot.gif)
+Fog / rain / Lightning effects
 
-Electronic effect + hand tracking.
+![screenshot](./screenshot.gif)
