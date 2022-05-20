@@ -8,6 +8,8 @@ varying vec2 vUv;
 
 void main() {
   vec4 c = texture2D(uImage, vUv);
+  float brightness = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+  vec4 monochrome = vec4(brightness, brightness, brightness, 1.0);
 
   float dx = 1.0 / u_resolution.x; 
   float dy = 1.0 / u_resolution.y;
@@ -18,13 +20,12 @@ void main() {
   vec4 x = c8 - c0;
   vec4 y = c6 - c2;
   float r = sqrt(dot(x, y) + dot(y, y));
-  float f = r * (1.0 - step(r, 0.1)) * 3.0;
 
   float mag = 1.;
-  if (random > 0.8) {
-    mag = 1. + 0.5;
+  if (random > 0.9) {
+    mag = 1. + pow(2., random);
   }
-  float brintness = mag * c.r;
-  float g = max(brintness, f * random);
-  gl_FragColor = vec4(g, g, g, 1.);
+  vec4 highlight = random * r * vec4(0.0039, 0.6078, 0.3765, 1.0) * 3.;
+  float intensity = mag * brightness;
+  gl_FragColor = vec4(max(mix(monochrome.rgb * intensity, c.rgb, 0.4), highlight.rgb), 1.0);
 }
