@@ -1,15 +1,16 @@
+import loadImage from "../loadImage"
+import noiseTextureUrl from "./perlin.png"
 import vertexShaderSource from "./effect.vert";
 import fragmentShaderSource from "./effect.frag";
 import { createShader, createProgram } from "../shader";
 
-export class Effector {
-  
+export class CloudRenderer {
+
+  #texture: HTMLImageElement | null = null
   #canvas: HTMLCanvasElement
   #vertShader: WebGLShader
   #fragShader: WebGLShader
   #program: WebGLProgram
-  #width = 360
-  #height = 240
 
   constructor() {
     this.#canvas = document.createElement('canvas')
@@ -17,6 +18,19 @@ export class Effector {
     this.#vertShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
     this.#fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
     this.#program = createProgram(gl, this.#vertShader, this.#fragShader);
+  }
+
+  async setUp() {
+    this.#texture = await loadImage(noiseTextureUrl)
+  }
+
+  setSize(width: number, height: number) {
+    this.#canvas.width = width
+    this.#canvas.height = height
+  }
+
+  getCanvas() {
+    return this.#canvas
   }
 
   private getWebGLContext() {
@@ -27,18 +41,10 @@ export class Effector {
     return ctx
   }
 
-  getCanvas() {
-    return this.#canvas
-  }
-
-  setSize(width: number, height: number) {
-    this.#width = width
-    this.#height = height
-    this.#canvas.width = width
-    this.#canvas.height = height
-  }
-
-  process(canvas: HTMLCanvasElement) {
+  render() {
+    if (!this.#texture) {
+      throw new Error("no texture")
+    }
     const gl = this.getWebGLContext()
     // look up where the vertex data needs to go.
     var positionLocation = gl.getAttribLocation(this.#program, "a_position");
@@ -48,7 +54,7 @@ export class Effector {
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
      // Set a rectangle the same size as the image.
-    this.setRectangle(gl, 0, 0, this.#width, this.#height);
+    this.setRectangle(gl, 0, 0, this.#canvas.width, this.#canvas.height);
 
     // provide texture coordinates for the rectangle.
     var texcoordBuffer = gl.createBuffer();
@@ -62,7 +68,7 @@ export class Effector {
       1.0,  1.0,
     ]), gl.STATIC_DRAW);
 
-    const canvasTexture = this.createTexture(canvas)
+    const canvasTexture = this.createTexture(this.#texture)
 
     const u_image1Location = gl.getUniformLocation(this.#program, "uImage");
     gl.uniform1i(u_image1Location, 1);  // texture unit 1
@@ -73,8 +79,10 @@ export class Effector {
     gl.activeTexture(gl.TEXTURE2);
     gl.bindTexture(gl.TEXTURE_2D, noiseTexture1);
     */
-    const randomLocation = gl.getUniformLocation(this.#program, "random");
+    const randomLocation = gl.getUniformLocation(this.#program, "uRandom");
     gl.uniform1f(randomLocation, Math.random());
+    const timeLocation = gl.getUniformLocation(this.#program, "uTime");
+    gl.uniform1f(timeLocation, performance.now() / 1000);
 
 
     // lookup uniforms
@@ -161,4 +169,5 @@ export class Effector {
        x2, y2,
     ]), gl.STATIC_DRAW);
   }
+  
 }

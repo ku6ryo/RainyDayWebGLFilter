@@ -2,6 +2,7 @@ import Stats from "stats.js"
 import { Effector } from "./Effector"
 import { RainRenderer } from "./RainRenderer"
 import CameraManager from "./CameraManager"
+import { CloudRenderer } from "./CloudRenderer"
 
 const stats = new Stats()
 document.body.appendChild(stats.dom)
@@ -12,6 +13,8 @@ async function main() {
 
   const rainRenderer = new RainRenderer()
   const effector = new Effector()
+  const cloudRenderer = new CloudRenderer()
+  cloudRenderer.setUp()
 
   const mainCanvas = document.createElement("canvas")
   const mainContext = mainCanvas.getContext("2d")!
@@ -36,6 +39,7 @@ async function main() {
   cameraCanvas.height = vh
   effector.setSize(vw, vh)
   rainRenderer.setSize(vw, vh)
+  cloudRenderer.setSize(vw, vh)
 
   document.body.appendChild(cameraCanvas)
   document.body.appendChild(rainRenderer.getCanvas())
@@ -49,9 +53,11 @@ async function main() {
 
     effector.process(cameraCanvas)
     rainRenderer.process()
+    cloudRenderer.render()
 
     mainContext.drawImage(effector.getCanvas(), 0, 0, mainCanvas.width, mainCanvas.height)
     mainContext.drawImage(rainRenderer.getCanvas(), 0, 0, mainCanvas.width, mainCanvas.height)
+    mainContext.drawImage(cloudRenderer.getCanvas(), 0, 0, mainCanvas.width, mainCanvas.height)
 
     stats.end()
     requestAnimationFrame(process)

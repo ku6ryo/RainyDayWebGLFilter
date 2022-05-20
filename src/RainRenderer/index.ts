@@ -66,9 +66,7 @@ export class RainRenderer {
     ctx.strokeStyle = "rgba(174,194,224,0.2)";
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
-
     ctx.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
-    console.log(this.#particles.length)
     this.#particles.forEach(p => {
       ctx.beginPath();
       ctx.moveTo(p.x, p.y);
