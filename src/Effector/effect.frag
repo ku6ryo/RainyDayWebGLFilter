@@ -19,7 +19,7 @@ void main() {
   vec4 c6 = texture2D(uImage, vUv + vec2(-dx, dy));
   vec4 x = c8 - c0;
   vec4 y = c6 - c2;
-  float r = sqrt(dot(x, y) + dot(y, y));
+  float r = sqrt(dot(x, x) + dot(y, y));
 
   float mag = 1.;
   float colorMix = 0.;
