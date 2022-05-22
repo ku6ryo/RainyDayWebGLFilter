@@ -1,5 +1,5 @@
 import Stats from "stats.js"
-import { Effector } from "./Effector"
+import { VideoRenderer } from "./VideoRenderer"
 import { RainRenderer } from "./RainRenderer"
 import CameraManager from "./CameraManager"
 import { CloudRenderer } from "./CloudRenderer"
@@ -12,7 +12,7 @@ main()
 async function main() {
 
   const rainRenderer = new RainRenderer()
-  const effector = new Effector()
+  const videoRenderer = new VideoRenderer()
   const cloudRenderer = new CloudRenderer()
   cloudRenderer.setUp()
 
@@ -37,7 +37,7 @@ async function main() {
 
   cameraCanvas.width = vw
   cameraCanvas.height = vh
-  effector.setSize(vw, vh)
+  videoRenderer.setSize(vw, vh)
   rainRenderer.setSize(vw, vh)
   cloudRenderer.setSize(vw, vh)
 
@@ -48,11 +48,11 @@ async function main() {
     cameraContext.clearRect(0, 0, cameraCanvas.width, cameraCanvas.height)
     cameraContext.drawImage(cameraVideo, 0, 0, cameraCanvas.width, cameraCanvas.height)
 
-    effector.process(cameraCanvas)
+    videoRenderer.process(cameraCanvas)
     rainRenderer.process()
     cloudRenderer.render()
 
-    mainContext.drawImage(effector.getCanvas(), 0, 0, mainCanvas.width, mainCanvas.height)
+    mainContext.drawImage(videoRenderer.getCanvas(), 0, 0, mainCanvas.width, mainCanvas.height)
     mainContext.drawImage(rainRenderer.getCanvas(), 0, 0, mainCanvas.width, mainCanvas.height)
     mainContext.drawImage(cloudRenderer.getCanvas(), 0, 0, mainCanvas.width, mainCanvas.height)
 

@@ -47,8 +47,8 @@ export class CloudRenderer {
     }
     const gl = this.getWebGLContext()
     // look up where the vertex data needs to go.
-    var positionLocation = gl.getAttribLocation(this.#program, "a_position");
-    var texcoordLocation = gl.getAttribLocation(this.#program, "a_texCoord");
+    var positionLocation = gl.getAttribLocation(this.#program, "aPosition");
+    var texcoordLocation = gl.getAttribLocation(this.#program, "aTexCoord");
     // Create a buffer to put three 2d clip space points in
     var positionBuffer = gl.createBuffer();
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)

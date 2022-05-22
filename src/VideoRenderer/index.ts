@@ -2,7 +2,7 @@ import vertexShaderSource from "./effect.vert";
 import fragmentShaderSource from "./effect.frag";
 import { createShader, createProgram } from "../shader";
 
-export class Effector {
+export class VideoRenderer {
   
   #canvas: HTMLCanvasElement
   #vertShader: WebGLShader
@@ -41,8 +41,8 @@ export class Effector {
   process(canvas: HTMLCanvasElement) {
     const gl = this.getWebGLContext()
     // look up where the vertex data needs to go.
-    var positionLocation = gl.getAttribLocation(this.#program, "a_position");
-    var texcoordLocation = gl.getAttribLocation(this.#program, "a_texCoord");
+    var positionLocation = gl.getAttribLocation(this.#program, "aPosition");
+    var texcoordLocation = gl.getAttribLocation(this.#program, "aTexCoord");
     // Create a buffer to put three 2d clip space points in
     var positionBuffer = gl.createBuffer();
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
@@ -64,15 +64,12 @@ export class Effector {
 
     const canvasTexture = this.createTexture(canvas)
 
-    const u_image1Location = gl.getUniformLocation(this.#program, "uImage");
-    gl.uniform1i(u_image1Location, 1);  // texture unit 1
+    const uImageLocation = gl.getUniformLocation(this.#program, "uImage");
+    gl.uniform1i(uImageLocation, 1);  // texture unit 1
 
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, canvasTexture);
-    /*
-    gl.activeTexture(gl.TEXTURE2);
-    gl.bindTexture(gl.TEXTURE_2D, noiseTexture1);
-    */
+
     const uRandomLocation = gl.getUniformLocation(this.#program, "uRandom");
     gl.uniform1f(uRandomLocation, Math.random());
 

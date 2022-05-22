@@ -1,14 +1,14 @@
 precision mediump float;
 
-attribute vec2 a_position;
-attribute vec2 a_texCoord;
+attribute vec2 aPosition;
+attribute vec2 aTexCoord;
 
 uniform vec2 uResolution;
 varying vec2 vUv;
 
 void main() {
    // convert the rectangle from pixels to 0.0 to 1.0
-   vec2 zeroToOne = a_position / uResolution;
+   vec2 zeroToOne = aPosition / uResolution;
 
    // convert from 0->1 to 0->2
    vec2 zeroToTwo = zeroToOne * 2.0;
@@ -20,5 +20,5 @@ void main() {
 
    // pass the texCoord to the fragment shader
    // The GPU will interpolate this value between points.
-   vUv = a_texCoord;
+   vUv = aTexCoord;
 }
