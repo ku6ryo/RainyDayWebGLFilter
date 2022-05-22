@@ -1,15 +1,15 @@
 precision mediump float;
 
 uniform sampler2D uImage;
-uniform float random;
+uniform float uRandom;
 uniform vec2 uResolution;
 
 varying vec2 vUv;
 
 void main() {
-  vec4 c = texture2D(uImage, vUv);
+  vec3 c = texture2D(uImage, vUv).rgb;
   float brightness = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
-  vec4 monochrome = vec4(brightness, brightness, brightness, 1.0);
+  vec3 monochrome = vec3(brightness, brightness, brightness);
 
   float dx = 1.0 / uResolution.x * 1.5; 
   float dy = 1.0 / uResolution.y * 1.5;
@@ -23,11 +23,10 @@ void main() {
 
   float mag = 1.;
   float colorMix = 0.;
-  if (random > 0.9) {
-    mag = 1. + pow(2., random);
-    colorMix = 0.5 + 0.3 * random;
+  if (uRandom > 0.9) {
+    mag = 1. + pow(2., uRandom);
+    colorMix = 0.5 + 0.3 * uRandom;
   }
-  vec4 highlight = random * r * vec4(0.8314, 0.702, 1.0, 1.0) * 3.;
-  float intensity = mag * brightness;
-  gl_FragColor = vec4(max(mix(monochrome.rgb * intensity, c.rgb, colorMix), highlight.rgb), 1.0);
+  vec3 highlight = uRandom * r * vec3(0.8314, 0.702, 1.0) * 3.;
+  gl_FragColor = vec4(max(mix(monochrome * mag, c, colorMix), highlight), 1.0);
 }

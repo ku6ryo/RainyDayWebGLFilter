@@ -79,8 +79,8 @@ export class CloudRenderer {
     gl.activeTexture(gl.TEXTURE2);
     gl.bindTexture(gl.TEXTURE_2D, noiseTexture1);
     */
-    const randomLocation = gl.getUniformLocation(this.#program, "uRandom");
-    gl.uniform1f(randomLocation, Math.random());
+    const uRandomLocation = gl.getUniformLocation(this.#program, "uuRandom");
+    gl.uniform1f(uRandomLocation, Math.random());
     const timeLocation = gl.getUniformLocation(this.#program, "uTime");
     gl.uniform1f(timeLocation, performance.now() / 1000);
 

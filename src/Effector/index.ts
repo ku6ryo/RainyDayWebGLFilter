@@ -73,8 +73,8 @@ export class Effector {
     gl.activeTexture(gl.TEXTURE2);
     gl.bindTexture(gl.TEXTURE_2D, noiseTexture1);
     */
-    const randomLocation = gl.getUniformLocation(this.#program, "random");
-    gl.uniform1f(randomLocation, Math.random());
+    const uRandomLocation = gl.getUniformLocation(this.#program, "uRandom");
+    gl.uniform1f(uRandomLocation, Math.random());
 
 
     // lookup uniforms
