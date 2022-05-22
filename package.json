@@ -8,8 +8,6 @@
   "author": "Ryo Kuroyanagi",
   "license": "MIT",
   "dependencies": {
-    "@tensorflow/tfjs-converter": "^3.14.0",
-    "@tensorflow/tfjs-core": "^3.14.0",
     "@types/stats.js": "^0.17.0",
     "cross-env": "^7.0.3",
     "file-loader": "^6.2.0",
