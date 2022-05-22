@@ -13,12 +13,12 @@ void main() {
 
   float dx = 1.0 / uResolution.x * 1.5; 
   float dy = 1.0 / uResolution.y * 1.5;
-  vec4 c0 = texture2D(uImage, vUv + vec2(-dx, -dy));
-  vec4 c8 = texture2D(uImage, vUv + vec2(dx, dy));
-  vec4 c2 = texture2D(uImage, vUv + vec2(dx, -dy));
-  vec4 c6 = texture2D(uImage, vUv + vec2(-dx, dy));
-  vec4 x = c8 - c0;
-  vec4 y = c6 - c2;
+  vec3 c0 = texture2D(uImage, vUv + vec2(-dx, -dy)).rgb;
+  vec3 c8 = texture2D(uImage, vUv + vec2(dx, dy)).rgb;
+  vec3 c2 = texture2D(uImage, vUv + vec2(dx, -dy)).rgb;
+  vec3 c6 = texture2D(uImage, vUv + vec2(-dx, dy)).rgb;
+  vec3 x = c8 - c0;
+  vec3 y = c6 - c2;
   float r = sqrt(dot(x, x) + dot(y, y));
 
   float mag = 1.;
