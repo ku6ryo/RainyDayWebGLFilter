@@ -17,9 +17,9 @@ void main() {
   vec3 c8 = texture2D(uImage, vUv + vec2(dx, dy)).rgb;
   vec3 c2 = texture2D(uImage, vUv + vec2(dx, -dy)).rgb;
   vec3 c6 = texture2D(uImage, vUv + vec2(-dx, dy)).rgb;
-  vec3 x = c8 - c0;
-  vec3 y = c6 - c2;
-  float r = sqrt(dot(x, x) + dot(y, y));
+  vec3 a = c8 - c0;
+  vec3 b = c6 - c2;
+  float r = sqrt(dot(a, a) + dot(b, b));
 
   float mag = 1.;
   float colorMix = 0.;
